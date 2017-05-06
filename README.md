@@ -1,5 +1,8 @@
 # Smart Proxy - Onboard
 
+[![Build Status](https://travis-ci.org/Deltik/smart_proxy_onboard.svg?branch=develop)](https://travis-ci.org/Deltik/smart_proxy_onboard)
+[![Code Climate](https://codeclimate.com/github/Deltik/smart_proxy_onboard/badges/gpa.svg)](https://codeclimate.com/github/Deltik/smart_proxy_onboard)
+
 The **Smart Proxy Onboard Plugin** (**`smart_proxy_onboard`**) exposes useful API methods for the earliest part of the server lifecycle management process: onboarding new servers into [Foreman](https://github.com/theforeman/foreman).
 
 This plugin is used for the onboarding process before server discovery.  It plugs into [Smart Proxy](https://github.com/theforeman/smart-proxy) to cover the same network ranges as the Smart Proxy.
