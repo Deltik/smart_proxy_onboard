@@ -1,7 +1,7 @@
 module Proxy::Onboard
   # Plugin definition
   class Plugin < ::Proxy::Plugin
-    plugin 'onboard', Proxy::Onboard::VERSION
+    plugin :onboard, Proxy::Onboard::VERSION
     default_settings bmc_scanner_max_range_size: 65_536,
                      bmc_scanner_max_threads_per_request: 500,
                      bmc_scanner_socket_timeout_seconds: 1
