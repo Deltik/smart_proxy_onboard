@@ -12,12 +12,12 @@ module Proxy::Onboard
 
     # Returns a helpful message that the user should supply a beginning IP and ending IP
     get "/scan/range" do
-      { :message => "You need to supply a range with /bmc/scan/range/:address_first/:address_last"}.to_json
+      { :message => "You need to supply a range with /onboard/bmc/scan/range/:address_first/:address_last"}.to_json
     end
 
     # Returns a helpful message that the user should supply a CIDR
     get "/scan/cidr" do
-      { :message => "You need to supply a CIDR with /bmc/scan/cidr/:address/:netmask (e.g. \"192.168.1.1/24\" or \"192.168.1.1/255.255.255.0\")"}.to_json
+      { :message => "You need to supply a CIDR with /onboard/bmc/scan/cidr/:address/:netmask (e.g. \"192.168.1.1/24\" or \"192.168.1.1/255.255.255.0\")"}.to_json
     end
 
     ["/scan/range/:address_first/?:address_last?",

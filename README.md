@@ -41,9 +41,9 @@ No additional features have been planned so far.
 
 ## API
 
-### `GET /bmc/scan`
+### `GET /onboard/bmc/scan`
 
-Shows available resources `/bmc/scan/range` and `/bmc/scan/cidr`
+Shows available resources `/onboard/bmc/scan/range` and `/onboard/bmc/scan/cidr`
 
     {
       "available_resources": [
@@ -52,27 +52,27 @@ Shows available resources `/bmc/scan/range` and `/bmc/scan/cidr`
       ]
     }
 
-### `GET /bmc/scan/range`
+### `GET /onboard/bmc/scan/range`
 
 Shows usage on specifying a beginning IP address and an ending IP address for making a scan request
 
     {
-      "message": "You need to supply a range with /bmc/scan/range/:address_first/:address_last"
+      "message": "You need to supply a range with /onboard/bmc/scan/range/:address_first/:address_last"
     }
 
-### `GET /bmc/scan/cidr`
+### `GET /onboard/bmc/scan/cidr`
 
 Shows usage on specifying an IP address and its netmask in dot decimal format or prefixlen format for making a scan request
 
     {
-      "message": "You need to supply a CIDR with /bmc/scan/cidr/:address/:netmask (e.g. \"192.168.1.1/24\" or \"192.168.1.1/255.255.255.0\")"
+      "message": "You need to supply a CIDR with /onboard/bmc/scan/cidr/:address/:netmask (e.g. \"192.168.1.1/24\" or \"192.168.1.1/255.255.255.0\")"
     }
 
-### `GET /bmc/scan/range/:address_first/:address_last`
+### `GET /onboard/bmc/scan/range/:address_first/:address_last`
 
 Performs an IPMI ping scan from `:address_first` to `:address_last` and returns the result in key "`result`" of a JSON hash
 
-Sample output for `/bmc/scan/range/10.246.0.65/10.246.0.71`:
+Sample output for `/onboard/bmc/scan/range/10.246.0.65/10.246.0.71`:
 
     {
       "result": [
@@ -86,11 +86,11 @@ Sample output for `/bmc/scan/range/10.246.0.65/10.246.0.71`:
       ]
     }
 
-### `GET /bmc/scan/cidr/:address/:netmask`
+### `GET /onboard/bmc/scan/cidr/:address/:netmask`
 
 Performs an IPMI ping scan in the CIDR range of `:address`/`:netmask`, where `:netmask` is in decimal format (e.g. "`255.255.255.0`") or in prefixlen format (e.g. "`24`")
 
-Sample output for `/bmc/scan/cidr/10.246.0.65/29`:
+Sample output for `/onboard/bmc/scan/cidr/10.246.0.65/29`:
 
     {
       "result": [
