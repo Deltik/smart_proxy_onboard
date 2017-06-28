@@ -1,4 +1,5 @@
 require 'smart_proxy'
+require 'bmc/ipmiscanner'
 
 module Proxy::Onboard
   class ApiBmc < Sinatra::Base
