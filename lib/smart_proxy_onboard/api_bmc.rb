@@ -1,5 +1,6 @@
 require 'smart_proxy'
 require 'bmc/ipmiscanner'
+require 'bmc/sdr_cache'
 
 module Proxy::Onboard
   class ApiBmc < Sinatra::Base
@@ -45,6 +46,19 @@ module Proxy::Onboard
                  :address_last  => params[:address_last] }
       end
       @scanner = Proxy::Onboard::BMC::IPMIScanner.new(args)
+    end
+
+    # Clear the SDR cache
+    delete "/sdr_cache" do
+      sdr_cache = Proxy::Onboard::BMC::SDRCache.new
+      return { result: true, message: 'No SDR cache to delete' }.to_json unless sdr_cache.present?
+      result = sdr_cache.delete
+      if result.is_a? Hash
+        return result.merge({ result: false, message: 'Failed to delete one or more SDR cache location candidates' }).to_json
+      elsif result == true
+        return { result: true, message: 'SDR cache deleted' }.to_json
+      end
+        return { result: false, message: 'Unexpected response from delete function' }.to_json
     end
   end
 end

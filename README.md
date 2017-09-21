@@ -103,3 +103,7 @@ Sample output for `/onboard/bmc/scan/cidr/10.246.0.65/29`:
         "10.246.0.71"
       ]
     }
+
+### `DELETE /onboard/bmc/sdr_cache`
+
+(_FreeIPMI only_) Deletes the sensor data repository (SDR) cache from the Smart Proxy.

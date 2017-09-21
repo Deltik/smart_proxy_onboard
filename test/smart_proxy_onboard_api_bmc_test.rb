@@ -161,4 +161,46 @@ class SmartProxyOnboardApiBmcTest < Test::Unit::TestCase
     data = JSON.parse(last_response.body)
     assert_equal(data['result'].length, 0)
   end
+
+# /sdr_cache
+  def test_api_sdr_cache_should_delete
+    Proxy::Onboard::BMC::SDRCache.any_instance.expects(:present?).returns true
+    Proxy::Onboard::BMC::SDRCache.any_instance.expects(:delete).returns true
+    delete '/sdr_cache'
+    assert last_response.ok?, "Last response was not ok"
+    data = JSON.parse(last_response.body)
+    assert data['result']
+  end
+
+  def test_api_sdr_cache_has_message_if_nothing_to_delete
+    Proxy::Onboard::BMC::SDRCache.any_instance.expects(:present?).returns false
+    delete '/sdr_cache'
+    assert last_response.ok?, "Last response was not ok"
+    data = JSON.parse(last_response.body)
+    assert data['result']
+    assert_send([data['message'].downcase, :include?, 'no'])
+  end
+
+  def test_api_sdr_cache_fails_to_delete
+    errors = {errors: ['"Operation not permitted @ rb_file_chown - /tmp/2/."']}
+    Proxy::Onboard::BMC::SDRCache.any_instance.expects(:present?).returns true
+    Proxy::Onboard::BMC::SDRCache.any_instance.expects(:delete).returns errors
+    delete '/sdr_cache'
+    assert last_response.ok?, "Last response was not ok"
+    data = JSON.parse(last_response.body)
+    assert_false data['result']
+    assert_send([data['message'].downcase, :include?, 'fail'])
+    assert_send([data['errors'], :is_a?, Array])
+    assert data['errors'].any? { |item| item.include? 'Operation not permitted' }
+  end
+
+  def test_api_sdr_cache_delete_returns_unexpected_value
+    Proxy::Onboard::BMC::SDRCache.any_instance.expects(:present?).returns true
+    Proxy::Onboard::BMC::SDRCache.any_instance.expects(:delete).returns false
+    delete '/sdr_cache'
+    assert last_response.ok?, "Last response was not ok"
+    data = JSON.parse(last_response.body)
+    assert_false data['result']
+    assert_send([data['message'].downcase, :include?, 'unexpect'])
+  end
 end
