@@ -4,7 +4,8 @@
 /_yardoc/
 /coverage/
 /doc/
-/logs/
+/logs/*
 /pkg/
 /spec/reports/
 /tmp/
+*.swp

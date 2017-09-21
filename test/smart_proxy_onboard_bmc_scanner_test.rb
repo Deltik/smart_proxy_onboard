@@ -98,6 +98,16 @@ class SmartProxyOnboardBmcScannerTest < Test::Unit::TestCase
     assert !@scanner.address_pings?('192.168.1.2')
   end
 
+  def test_address_pings_raises_emfile
+    mock_socket = mock()
+    mock_socket.expects(:connect).returns(true)
+    mock_socket.expects(:send).returns(nil)
+    mock_socket.expects(:close).returns(true)
+    UDPSocket.stubs(:new).raises(Errno::EMFILE).then.returns(mock_socket)
+    IO.expects(:select).returns([mock_socket, nil, nil])
+    assert @scanner.address_pings?('192.168.1.2')
+  end
+
   def test_default_socket_timeout_in_address_ping
     expected = 1
     Proxy::Onboard::Plugin.settings.stubs(:bmc_scanner_socket_timeout_seconds).returns(nil)
@@ -194,6 +204,13 @@ class SmartProxyOnboardBmcScannerTest < Test::Unit::TestCase
     assert_equal(expected.length, result.length)
     expected.each do |address|
       assert_send([result, :include?, address])
+    end
+  end
+
+  def test_basescanner_scan_to_list_raises_not_implemented_error
+    scanner = Proxy::Onboard::BMC::BaseScanner.new
+    assert_raises(NotImplementedError) do
+      scanner.scan_to_list
     end
   end
 end
