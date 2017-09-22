@@ -1,4 +1,4 @@
-# coding: utf-8
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'smart_proxy_onboard/version'
@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Nick Liu']
   spec.email         = ['deltik@gmx.com']
 
-  spec.summary       = %q{Support functions for onboarding new servers into Foreman}
-  spec.description   = %q{This plugin exposes API calls that can be used to onboard new hosts in bulk into Foreman through PXE boot and the foreman_discovery image.}
+  spec.summary       = 'Support functions for onboarding new servers into Foreman'
+  spec.description   = 'This plugin exposes API calls that can be used to onboard new hosts in bulk into Foreman through PXE boot and the foreman_discovery image.'
   spec.homepage      = 'https://github.com/theforeman/smart_proxy_onboard'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
