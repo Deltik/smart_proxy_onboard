@@ -33,7 +33,8 @@ This plugin is made for the following combination of software:
 
 ### Currently Implemented
 
- - IPMI IP range scanner
+ - Scan IP ranges for IPMI appliances
+ - Clear FreeIPMI sensor data repository (SDR) cache
 
 ### Planned
 
@@ -106,4 +107,39 @@ Sample output for `/onboard/bmc/scan/cidr/10.246.0.65/29`:
 
 ### `DELETE /onboard/bmc/sdr_cache`
 
-(_FreeIPMI only_) Deletes the sensor data repository (SDR) cache from the Smart Proxy.
+(_FreeIPMI only_) Deletes the sensor data repository (SDR) cache from the Smart Proxy.  This is useful when you run something like `GET /bmc/10.246.0.69/fru/list` with `bmc_provider=freeipmi` and you get a reply like this:
+
+    {
+      "action": "list",
+      "result": {
+        "": {
+          "sdr_cache_'/tmp/.freeipmi-foreman-proxy/.freeipmi/sdr-cache/sdr-cache-smartproxyhostname.10.246.0.69'_invalid": "Please flush the cache and regenerate it"
+        }
+      }
+    }
+
+Instead of manually logging in to the Smart Proxy and deleting `/tmp/.freeipmi-foreman-proxy/.freeipmi/sdr-cache`, just run this method, and you'll get this reply:
+
+    {
+      "result": true,
+      "message": "SDR cache deleted"
+    }
+
+If there's no SDR cache present, you'll see:
+
+    {
+      "result": true,
+      "message": "No SDR cache to delete"
+    }
+
+If the deletion failed, you'll see something like this:
+
+    {
+      "errors": [
+        "Permission denied @ dir_s_rmdir - /tmp/.freeipmi-foreman-proxy/.freeipmi/sdr-cache"
+      ],
+      "result": false,
+      "message": "Failed to delete one or more SDR cache location candidates"
+    }
+
+As long as `{"result":true}`, you will not encounter the `sdr_cache_…_invalid` error next time.
